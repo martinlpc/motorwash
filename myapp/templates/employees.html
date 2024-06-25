@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block title %}
+  <h1>Empleados</h1>
+{% endblock %}
+
+{% block content %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Apellido</th>
+        <th>Nombre</th>
+        <th>DNI</th>
+        <th>Teléfono</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in employees %}
+        <tr>
+          <td>{{ c.lastName }}</td>
+          <td>{{ c.name }}</td>
+          <td>{{ c.DNI }}</td>
+          <td>{{ c.tel }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

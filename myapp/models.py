@@ -42,4 +42,4 @@ class Employee(models.Model):
 class Task(models.Model):
     asignedTo = models.CharField(max_length=8)  # Por número de DNI
     vehicleID = models.CharField(max_length=7)  # Por patente
-    description = models.CharField(max_length=200)
+    description = models.CharField(max_length=80, default="")

@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+
+{% block title %}
+  <h1>Trabajos pendientes</h1>
+{% endblock %}
+
+{% block content %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Asignado a</th>
+        <th>Patente del vehículo</th>
+        <th>Descripción de tarea a realizar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in tasks %}
+        <tr>
+          <td>{{ c.asignedTo }}</td>
+          <td>{{ c.vehicleID }}</td>
+          <td>{{ c.description }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

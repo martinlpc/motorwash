@@ -18,7 +18,7 @@ def vehicles(request):
 
 
 def clients(request):
-    context = {"Clients": Client.objects.all()}
+    context = {"clients": Client.objects.all()}
     return render(request, "clients.html", context)
 
 

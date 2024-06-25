@@ -1,0 +1,28 @@
+{% extends 'index.html' %}
+
+{% block title %}
+  <h1>Vehículos</h1>
+{% endblock %}
+
+{% block content %}
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Patente</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>DNI dueño/a</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in vehicles %}
+        <tr>
+          <td>{{ c.plateID }}</td>
+          <td>{{ c.brand }}</td>
+          <td>{{ c.brandModel }}</td>
+          <td>{{ c.ownerDNI }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
