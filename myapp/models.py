@@ -21,6 +21,7 @@ class Client(models.Model):
 
 class Vehicle(models.Model):
     plateID = models.CharField(max_length=7)  # ABC123 / AB123CD
+    vehicleType = models.CharField(max_length=15)
     brand = models.CharField(max_length=50)
     brandModel = models.CharField(max_length=50)
     ownerDNI = models.CharField(max_length=8)

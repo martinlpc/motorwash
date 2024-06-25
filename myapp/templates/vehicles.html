@@ -8,6 +8,7 @@
   <table class="table table-striped">
     <thead>
       <tr>
+        <th>Tipo de vehículo</th>
         <th>Patente</th>
         <th>Marca</th>
         <th>Modelo</th>
@@ -17,6 +18,7 @@
     <tbody>
       {% for c in vehicles %}
         <tr>
+          <td>{{ c.vehicleType }}</td>
           <td>{{ c.plateID }}</td>
           <td>{{ c.brand }}</td>
           <td>{{ c.brandModel }}</td>
