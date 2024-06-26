@@ -37,7 +37,6 @@
               <!-- Page heading -->
               {% block title %}
                 <h1 class="mb-5">Motorwash</h1>
-                <h2>Sistema de gestión de lavadero de vehículos</h2>
               {% endblock %}
             </div>
           </div>
@@ -46,13 +45,13 @@
     </header>
     <!-- Body -->
     <div class="container px-4">
-      <div class="row gx-4 justify-content-center">
-        <div class="col-lg-8">
-          {% block content %}
-
-          {% endblock %}
+      {% block content %}
+        <div class="row gx-4 justify-content-center">
+          <div class="col-lg-8">
+            <h2 class="text-center mt-3">Sistema de gestión de lavadero de vehículos</h2>
+          </div>
         </div>
-      </div>
+      {% endblock %}
     </div>
     <!-- Footer -->
     {% comment %} <footer class="footer bg-light">

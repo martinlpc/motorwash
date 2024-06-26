@@ -8,9 +8,6 @@ class Client(models.Model):
     name = models.CharField(max_length=80)
     email = models.EmailField()
     tel = models.CharField(max_length=10)
-    dateOfBirth = models.DateField()
-    dateOfRegister = models.DateField()
-    vehicles = []  # Instancias de Vehicle
 
     def __str__(self):
         return f"{self.lastName}, {self.name}"

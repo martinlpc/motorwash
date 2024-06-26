@@ -7,4 +7,5 @@ urlpatterns = [
     path("clients/", clients, name="clients"),
     path("vehicles/", vehicles, name="vehicles"),
     path("tasks/", tasks, name="tasks"),
+    path("add/client/", add_client_form, name="add-clients"),
 ]

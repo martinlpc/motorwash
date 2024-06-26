@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% load static %}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar nuevo cliente</title>
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
+  </head>
+  <body>
+    <form action="" method="POST">
+      {% csrf_token %}
+      <table>{{ myForm.as_table }}</table>
+      <input class="btn btn-primary" type="submit" value="Agregar" />
+    </form>
+  </body>
+</html>

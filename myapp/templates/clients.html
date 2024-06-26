@@ -1,32 +1,39 @@
 {% extends 'index.html' %}
 
 {% block title %}
-  <h1>Clientes</h1>
+  <h1 class="mb-5">Clientes</h1>
 {% endblock %}
 
 {% block content %}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Apellido</th>
-        <th>Nombre</th>
-        <th>DNI</th>
-        <th>Email</th>
-        <th>Teléfono</th>
-        <th>Vehículos registrados</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in clients %}
+  <div class="row gx-4 justify-content-center mt-1">
+    <div class="col-4 justify-content-center">
+      <a class="btn btn-primary" href="{% url 'add-clients' %}">Agregar nuevo cliente</a>
+    </div>
+  </div>
+  <div class="row gx-4 justify-content-center">
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td>{{ c.lastName }}</td>
-          <td>{{ c.name }}</td>
-          <td>{{ c.DNI }}</td>
-          <td>{{ c.email }}</td>
-          <td>{{ c.tel }}</td>
-          <td>{{ c.vehicles }}</td>
+          <th>Apellido</th>
+          <th>Nombre</th>
+          <th>DNI</th>
+          <th>Email</th>
+          <th>Teléfono</th>
+          <th>Vehículos registrados</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for c in clients %}
+          <tr>
+            <td>{{ c.lastName }}</td>
+            <td>{{ c.name }}</td>
+            <td>{{ c.DNI }}</td>
+            <td>{{ c.email }}</td>
+            <td>{{ c.tel }}</td>
+            <td>{{ c.vehicles }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
