@@ -11,8 +11,9 @@ urlpatterns = [
     path("add/client/", add_client_form, name="add-clients"),
     path("add/vehicle/", add_vehicle_form, name="add-vehicles"),
     path("add/task/", add_task_form, name="add-tasks"),
-    path("search/clients/", search_clients, name="search_clients"),
-    path("search/vehicles/", search_vehicles, name="search_vehicles"),
-    path("search/tasks/", search_tasks, name="search_tasks"),
-    path("search/employees/", search_employees, name="search_employees"),
+    path("add/employee/", add_employee_form, name="add-employees"),
+    path("search/clients/", search_clients, name="search-clients"),
+    path("search/vehicles/", search_vehicles, name="search-vehicles"),
+    path("search/tasks/", search_tasks, name="search-tasks"),
+    path("search/employees/", search_employees, name="search-employees"),
 ]

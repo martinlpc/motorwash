@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block content %}
+  <div class="row gx-4 justify-content-center mt-1">
+    <div class="col-4 justify-content-center">
+      <a class="btn btn-primary" href="{% url 'add-employees' %}">Agregar nuevo empleado</a>
+    </div>
+  </div>
   <table class="table table-striped">
     <thead>
       <tr>

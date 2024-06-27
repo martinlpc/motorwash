@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.db.models import Q
+from django.apps import apps
 from .models import *
 from .forms import *
 
@@ -33,6 +34,9 @@ def search_view(request, model):
     """
     Realiza búsquedas con el modelo que se le pase como parámetro
     """
+
+    # TODO: Definir si va a ser un unico form de busqueda general en el index o se va a mostrar en cada categoria
+
     form = SearchForm()
     query = None
     results = []
@@ -48,6 +52,9 @@ def search_view(request, model):
                 | Q(ownerDNI__icontains=query)
             )
             context = {"form": form, "query": query, "results": results}
+    else:
+        modelName = str(model)
+        context = {"form": form, "basehtml": modelName}
 
     return render(request, "search-form.html", context)
 
@@ -130,3 +137,24 @@ def add_task_form(request):
         myForm = TaskForm()
 
     return render(request, "add-task.html", {"myForm": myForm})
+
+
+def add_employee_form(request):
+    if request.method == "POST":
+        myForm = EmployeeForm(request.POST)
+        if myForm.is_valid:
+            info = myForm.data
+            employee = Employee(
+                DNI=info["DNI"],
+                lastName=info["lastName"],
+                name=info["name"],
+                tel=info["tel"],
+            )
+            employee.save()
+            context = {"employees": Employee.objects.all()}
+            return render(request, "employees.html", context)
+
+    else:
+        myForm = EmployeeForm()
+
+    return render(request, "add-employee.html", {"myForm": myForm})
