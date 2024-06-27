@@ -5,26 +5,33 @@
 {% endblock %}
 
 {% block content %}
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Tipo de vehículo</th>
-        <th>Patente</th>
-        <th>Marca</th>
-        <th>Modelo</th>
-        <th>DNI dueño/a</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in vehicles %}
+  <div class="row gx-4 justify-content-center mt-1">
+    <div class="col-4 justify-content-center">
+      <a class="btn btn-primary" href="{% url 'add-vehicles' %}">Agregar nuevo vehículo</a>
+    </div>
+  </div>
+  <div class="row gx-4 justify-content-center">
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <td>{{ c.vehicleType }}</td>
-          <td>{{ c.plateID }}</td>
-          <td>{{ c.brand }}</td>
-          <td>{{ c.brandModel }}</td>
-          <td>{{ c.ownerDNI }}</td>
+          <th>Tipo de vehículo</th>
+          <th>Patente</th>
+          <th>Marca</th>
+          <th>Modelo</th>
+          <th>DNI dueño/a</th>
         </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        {% for c in vehicles %}
+          <tr>
+            <td>{{ c.vehicleType }}</td>
+            <td>{{ c.plateID }}</td>
+            <td>{{ c.brand }}</td>
+            <td>{{ c.brandModel }}</td>
+            <td>{{ c.ownerDNI }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 {% endblock %}
