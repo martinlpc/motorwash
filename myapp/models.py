@@ -11,7 +11,7 @@ class Client(models.Model):
     tel = models.CharField(max_length=10)
 
     def __str__(self):
-        return f"{self.last_name}, {self.name}"
+        return f"[DNI {self.DNI}] - {self.last_name}, {self.name} - {self.email} - Tel: {self.tel}"
 
     class Meta:
         ordering = ["last_name"]
@@ -25,7 +25,7 @@ class Vehicle(models.Model):
     owner_DNI = models.CharField(max_length=8)
 
     def __str__(self):
-        return f"[{self.plate_ID}] - {self.brand} {self.brand_model}"
+        return f"[{self.plate_ID}] [{self.vehicle_type}] - {self.brand} {self.brand_model} - DNI propietario/a: {self.owner_DNI}"
 
     class Meta:
         ordering = ["brand", "brand_model"]
@@ -37,6 +37,9 @@ class Employee(models.Model):
     name = models.CharField(max_length=80)
     tel = models.CharField(max_length=10)
 
+    def __str__(self):
+        return f"[DNI {self.DNI}] - {self.last_name}, {self.name} - Tel: {self.tel}"
+
 
 class Task(models.Model):
     created = models.DateTimeField(default=timezone.now)
@@ -44,3 +47,6 @@ class Task(models.Model):
     vehicle_ID = models.CharField(max_length=7)  # Por patente
     description = models.CharField(max_length=80, default="")
     is_completed = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"[{self.created}] {self.vehicle_ID} asignado a {self.asigned_to}: {self.description}"

@@ -11,24 +11,31 @@
       <a class="btn btn-success m-1" href="{% url 'search-employee' %}">Buscar empleado</a>
     </div>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Apellido</th>
-        <th>Nombre</th>
-        <th>DNI</th>
-        <th>Teléfono</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in employees %}
-        <tr>
-          <td>{{ c.last_name }}</td>
-          <td>{{ c.name }}</td>
-          <td>{{ c.DNI }}</td>
-          <td>{{ c.tel }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+
+  {% block queryResults %}
+    <div class="row gx-4 justify-content-center">
+      {% if results %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Apellido</th>
+              <th>Nombre</th>
+              <th>DNI</th>
+              <th>Teléfono</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in employees %}
+              <tr>
+                <td>{{ c.last_name }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.DNI }}</td>
+                <td>{{ c.tel }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  {% endblock %}
 {% endblock %}

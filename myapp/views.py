@@ -35,7 +35,12 @@ def tasks(request):
 
 def find_results_by_model(model: models.Model, query):
     criteria = {
-        Client: Q(DNI__icontains=query) | Q(last_name__icontains=query),
+        Client: Q(DNI__icontains=query)
+        | Q(last_name__icontains=query)
+        | Q(name__icontains=query)
+        | Q(DNI__icontains=query)
+        | Q(email__icontains=query)
+        | Q(tel__icontains=query),
         Vehicle: Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query),
         Task: Q(vehicle_ID__icontains=query),
         Employee: Q(DNI__icontains=query)
@@ -70,7 +75,7 @@ def search_view(request, model: models.Model):
             }
     else:
         context = {"form": form, "basehtml": modelName}
-
+    print("results: ", results)
     return render(request, "search-form.html", context)
 
 

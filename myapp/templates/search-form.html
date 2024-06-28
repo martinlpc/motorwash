@@ -1,18 +1,21 @@
 {% extends basehtml %}
 
 {% block content %}
-  <form class="mt-1" method="get">
-    {{ form.as_p }}
-    <button type="submit" value="Search" class="btn btn-primary">Buscar</button>
-  </form>
-  {% if query %}
-    <h2>Resultados para "{{ query }}":</h2>
-    <ul>
+  {% block search %}
+    <form class="m-1" method="get">
+      {{ form.as_p }}
+      <button type="submit" value="Search" class="btn btn-primary">Buscar</button>
+    </form>
+  {% endblock %}
+
+  {% block queryResults %}
+    {% if query %}
+      <h3>Resultados para "{{ query }}":</h3>
       {% for result in results %}
-        <li>{{ result }}</li>
+        {{ result }}
       {% empty %}
-        <li>No se encontraron resultados</li>
+        No se encontraron resultados
       {% endfor %}
-    </ul>
-  {% endif %}
+    {% endif %}
+  {% endblock %}
 {% endblock %}

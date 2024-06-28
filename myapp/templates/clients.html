@@ -5,12 +5,14 @@
 {% endblock %}
 
 {% block content %}
-  <div class="row gx-4 justify-content-center mt-1">
-    <div class="col-4 justify-content-center">
-      <a class="btn btn-primary m-1" href="{% url 'add-client' %}">Agregar nuevo cliente</a>
-      <a class="btn btn-success m-1" href="{% url 'search-client' %}">Buscar cliente</a>
+  {% block buttons %}
+    <div class="row gx-4 justify-content-center mt-1">
+      <div class="col-4 justify-content-center">
+        <a class="btn btn-primary m-1" href="{% url 'add-client' %}">Agregar nuevo cliente</a>
+        <a class="btn btn-success m-1" href="{% url 'search-client' %}">Buscar cliente</a>
+      </div>
     </div>
-  </div>
+  {% endblock %}
 
   {% block queryResults %}
     <div class="row gx-4 justify-content-center">

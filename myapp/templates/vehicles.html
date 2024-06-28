@@ -11,28 +11,33 @@
       <a class="btn btn-success m-1" href="{% url 'search-vehicle' %}">Buscar vehículo</a>
     </div>
   </div>
-  <div class="row gx-4 justify-content-center">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Tipo de vehículo</th>
-          <th>Patente</th>
-          <th>Marca</th>
-          <th>Modelo</th>
-          <th>DNI dueño/a</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for c in vehicles %}
-          <tr>
-            <td>{{ c.vehicle_type }}</td>
-            <td>{{ c.plate_ID }}</td>
-            <td>{{ c.brand }}</td>
-            <td>{{ c.brand_model }}</td>
-            <td>{{ c.owner_DNI }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+
+  {% block queryResults %}
+    <div class="row gx-4 justify-content-center">
+      {% if results %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Tipo de vehículo</th>
+              <th>Patente</th>
+              <th>Marca</th>
+              <th>Modelo</th>
+              <th>DNI dueño/a</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in vehicles %}
+              <tr>
+                <td>{{ c.vehicle_type }}</td>
+                <td>{{ c.plate_ID }}</td>
+                <td>{{ c.brand }}</td>
+                <td>{{ c.brand_model }}</td>
+                <td>{{ c.owner_DNI }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  {% endblock %}
 {% endblock %}

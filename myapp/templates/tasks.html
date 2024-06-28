@@ -1,7 +1,7 @@
 {% extends 'index.html' %}
 
 {% block title %}
-  <h1 class="mb-5">Tareas pendientes</h1>
+  <h1 class="mb-5">Tareas</h1>
 {% endblock %}
 
 {% block content %}
@@ -11,23 +11,29 @@
       <a class="btn btn-success m-1" href="{% url 'search-task' %}">Buscar tarea</a>
     </div>
   </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Asignado a</th>
-        <th>Patente del vehículo</th>
-        <th>Descripción de tarea a realizar</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for c in tasks %}
-        <tr>
-          <td>{{ c.is_completed }}</td>
-          <td>{{ c.asigned_to }}</td>
-          <td>{{ c.vehicle_ID }}</td>
-          <td>{{ c.description }}</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  {% block queryResults %}
+    <div class="row gx-4 justify-content-center">
+      {% if results %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Asignado a</th>
+              <th>Patente del vehículo</th>
+              <th>Descripción de tarea a realizar</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in tasks %}
+              <tr>
+                <td>{{ c.is_completed }}</td>
+                <td>{{ c.asigned_to }}</td>
+                <td>{{ c.vehicle_ID }}</td>
+                <td>{{ c.description }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  {% endblock %}
 {% endblock %}
