@@ -5,7 +5,9 @@
 ### Proyecto final para la materia PYTHON de [CoderHouse](https://www.coderhouse.com), comisión #57810
 
 Alumno: Pacheco, Martín
+
 Profesor: Beltrán, Norman
+
 Tutor: Gomez, Demian
 
 ## Brief
