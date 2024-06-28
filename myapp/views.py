@@ -1,12 +1,16 @@
 from django.shortcuts import render
 from django.db.models import Q
-from django.apps import apps
 from .models import *
 from .forms import *
 
 
 def home(request):
-    return render(request, "index.html")
+
+    results = []
+    if "query" in request.GET:
+        results = Task.objects.filter(isCompleted=False)
+
+    return render(request, "active-tasks.html", {"results": results})
 
 
 def employees(request):
@@ -29,31 +33,42 @@ def tasks(request):
     return render(request, "tasks.html", context)
 
 
+def find_results_by_model(model: models.Model, query):
+    criteria = {
+        Client: Q(DNI__icontains=query) | Q(last_name__icontains=query),
+        Vehicle: Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query),
+        Task: Q(vehicle_ID__icontains=query),
+        Employee: Q(DNI__icontains=query)
+        | Q(name__icontains=query)
+        | Q(last_name__icontains=query),
+    }
+
+    return model.objects.filter(criteria.get(model))
+
+
 # Forms
-def search_view(request, model):
+def search_view(request, model: models.Model):
     """
     Realiza búsquedas con el modelo que se le pase como parámetro
     """
 
-    # TODO: Definir si va a ser un unico form de busqueda general en el index o se va a mostrar en cada categoria
-
+    # *     Búsquedas para cada model
     form = SearchForm()
     query = None
     results = []
+    modelName = model._meta.model_name.lower() + "s.html"
     if "query" in request.GET:
         form = SearchForm(request.GET)
         if form.is_valid():
             query = form.cleaned_data["query"]
-            results = model.objects.filter(
-                Q(name__icontains=query)
-                | Q(lastName__icontains=query)
-                | Q(vehicleID__icontains=query)
-                | Q(DNI__icontains=query)
-                | Q(ownerDNI__icontains=query)
-            )
-            context = {"form": form, "query": query, "results": results}
+            results = find_results_by_model(model, query)
+            context = {
+                "form": form,
+                "query": query,
+                "results": results,
+                "basehtml": modelName,
+            }
     else:
-        modelName = str(model)
         context = {"form": form, "basehtml": modelName}
 
     return render(request, "search-form.html", context)
@@ -75,6 +90,10 @@ def search_tasks(request):
     return search_view(request, Task)
 
 
+# TODO: Ver como integrar un unico form POST adaptable
+# TODO: a cada model (usar lógica similar al search)
+
+
 def add_client_form(request):
     if request.method == "POST":
         myForm = ClientForm(request.POST)
@@ -82,7 +101,7 @@ def add_client_form(request):
             info = myForm.data
             client = Client(
                 DNI=info["DNI"],
-                lastName=info["lastName"],
+                last_name=info["last_name"],
                 name=info["name"],
                 email=info["email"],
                 tel=info["tel"],
@@ -103,11 +122,11 @@ def add_vehicle_form(request):
         if myForm.is_valid:
             info = myForm.data
             vehicle = Vehicle(
-                plateID=info["plateID"],
-                vehicleType=info["vehicleType"],
+                plate_ID=info["plate_ID"],
+                vehicle_type=info["vehicle_type"],
                 brand=info["brand"],
-                brandModel=info["brandModel"],
-                ownerDNI=info["ownerDNI"],
+                brand_model=info["brand_model"],
+                owner_DNI=info["owner_DNI"],
             )
             vehicle.save()
             context = {"vehicles": Vehicle.objects.all()}
@@ -125,8 +144,8 @@ def add_task_form(request):
         if myForm.is_valid:
             info = myForm.data
             task = Task(
-                asignedTo=info["asignedTo"],
-                vehicleID=info["vehicleID"],
+                asigned_to=info["asigned_to"],
+                vehicle_ID=info["vehicle_ID"],
                 description=info["description"],
             )
             task.save()
@@ -146,7 +165,7 @@ def add_employee_form(request):
             info = myForm.data
             employee = Employee(
                 DNI=info["DNI"],
-                lastName=info["lastName"],
+                last_name=info["last_name"],
                 name=info["name"],
                 tel=info["tel"],
             )

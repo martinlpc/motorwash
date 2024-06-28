@@ -7,33 +7,39 @@
 {% block content %}
   <div class="row gx-4 justify-content-center mt-1">
     <div class="col-4 justify-content-center">
-      <a class="btn btn-primary" href="{% url 'add-clients' %}">Agregar nuevo cliente</a>
+      <a class="btn btn-primary m-1" href="{% url 'add-client' %}">Agregar nuevo cliente</a>
+      <a class="btn btn-success m-1" href="{% url 'search-client' %}">Buscar cliente</a>
     </div>
   </div>
-  <div class="row gx-4 justify-content-center">
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th>Apellido</th>
-          <th>Nombre</th>
-          <th>DNI</th>
-          <th>Email</th>
-          <th>Teléfono</th>
-          <th>Vehículos registrados</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for c in clients %}
-          <tr>
-            <td>{{ c.lastName }}</td>
-            <td>{{ c.name }}</td>
-            <td>{{ c.DNI }}</td>
-            <td>{{ c.email }}</td>
-            <td>{{ c.tel }}</td>
-            <td>{{ c.vehicles }}</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+
+  {% block queryResults %}
+    <div class="row gx-4 justify-content-center">
+      {% if results %}
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Apellido</th>
+              <th>Nombre</th>
+              <th>DNI</th>
+              <th>Email</th>
+              <th>Teléfono</th>
+              <th>Vehículos registrados</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for c in clients %}
+              <tr>
+                <td>{{ c.last_name }}</td>
+                <td>{{ c.name }}</td>
+                <td>{{ c.DNI }}</td>
+                <td>{{ c.email }}</td>
+                <td>{{ c.tel }}</td>
+                <td>{{ c.vehicles }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+  {% endblock %}
 {% endblock %}

@@ -1,9 +1,9 @@
 {% extends basehtml %}
 
 {% block content %}
-  <form method="get">
+  <form class="mt-1" method="get">
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Buscar</button>
+    <button type="submit" value="Search" class="btn btn-primary">Buscar</button>
   </form>
   {% if query %}
     <h2>Resultados para "{{ query }}":</h2>

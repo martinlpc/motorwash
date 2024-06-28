@@ -5,23 +5,26 @@ from .models import *
 
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ("DNI", "lastName", "name", "email", "tel")
-    list_filter = ("DNI", "lastName", "tel")
+    list_display = ("DNI", "last_name", "name", "email", "tel")
+    list_filter = ("DNI", "last_name", "tel")
 
 
 class EmployeeAdmin(admin.ModelAdmin):
-    list_display = ("DNI", "lastName", "name", "tel")
-    list_filter = ("lastName",)
+    list_display = ("DNI", "last_name", "name", "tel")
+    list_filter = ("last_name",)
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("vehicleID", "asignedTo", "description")
-    list_filter = ("vehicleID",)
+    list_display = ("vehicle_ID", "asigned_to", "description", "is_completed")
+    list_filter = (
+        "is_completed",
+        "vehicle_ID",
+    )
 
 
 class VehicleAdmin(admin.ModelAdmin):
-    list_display = ("plateID", "brand", "brandModel", "ownerDNI")
-    list_filter = ("plateID", "brand", "brandModel", "ownerDNI")
+    list_display = ("plate_ID", "brand", "brand_model", "owner_DNI")
+    list_filter = ("plate_ID", "brand", "brand_model", "owner_DNI")
 
 
 admin.site.register(Client, ClientAdmin)

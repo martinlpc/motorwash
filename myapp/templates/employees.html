@@ -7,7 +7,8 @@
 {% block content %}
   <div class="row gx-4 justify-content-center mt-1">
     <div class="col-4 justify-content-center">
-      <a class="btn btn-primary" href="{% url 'add-employees' %}">Agregar nuevo empleado</a>
+      <a class="btn btn-primary m-1" href="{% url 'add-employee' %}">Agregar nuevo empleado</a>
+      <a class="btn btn-success m-1" href="{% url 'search-employee' %}">Buscar empleado</a>
     </div>
   </div>
   <table class="table table-striped">
@@ -22,7 +23,7 @@
     <tbody>
       {% for c in employees %}
         <tr>
-          <td>{{ c.lastName }}</td>
+          <td>{{ c.last_name }}</td>
           <td>{{ c.name }}</td>
           <td>{{ c.DNI }}</td>
           <td>{{ c.tel }}</td>

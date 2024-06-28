@@ -7,7 +7,8 @@
 {% block content %}
   <div class="row gx-4 justify-content-center mt-1">
     <div class="col-4 justify-content-center">
-      <a class="btn btn-primary" href="{% url 'add-vehicles' %}">Agregar nuevo vehículo</a>
+      <a class="btn btn-primary m-1" href="{% url 'add-vehicle' %}">Agregar nuevo vehículo</a>
+      <a class="btn btn-success m-1" href="{% url 'search-vehicle' %}">Buscar vehículo</a>
     </div>
   </div>
   <div class="row gx-4 justify-content-center">
@@ -24,11 +25,11 @@
       <tbody>
         {% for c in vehicles %}
           <tr>
-            <td>{{ c.vehicleType }}</td>
-            <td>{{ c.plateID }}</td>
+            <td>{{ c.vehicle_type }}</td>
+            <td>{{ c.plate_ID }}</td>
             <td>{{ c.brand }}</td>
-            <td>{{ c.brandModel }}</td>
-            <td>{{ c.ownerDNI }}</td>
+            <td>{{ c.brand_model }}</td>
+            <td>{{ c.owner_DNI }}</td>
           </tr>
         {% endfor %}
       </tbody>
