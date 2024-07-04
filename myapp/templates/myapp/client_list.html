@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'myapp/index.html' %}
 
 {% block title %}
   <h1 class="mb-5">Clientes</h1>
@@ -15,8 +15,8 @@
   {% endblock %}
 
   {% block queryResults %}
-    <div class="row gx-4 justify-content-center">
-      {% if results %}
+    {% if results %}
+      <div class="row gx-4 justify-content-center">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -26,10 +26,11 @@
               <th>Email</th>
               <th>Teléfono</th>
               <th>Vehículos registrados</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {% for c in clients %}
+            {% for c in results %}
               <tr>
                 <td>{{ c.last_name }}</td>
                 <td>{{ c.name }}</td>
@@ -37,11 +38,15 @@
                 <td>{{ c.email }}</td>
                 <td>{{ c.tel }}</td>
                 <td>{{ c.vehicles }}</td>
+                <td>
+                  <a class="btn btn-primary" href="{% url 'update-client' %}"><i class="fa fa-edit fa-sm" title="Edit registry"></i></a>
+                  <a class="btn btn-danger" href="{% url 'delete-client' %}"><i class="fa fa-trash fa-sm" title="Delete registry"></i></a>
+                </td>
               </tr>
             {% endfor %}
           </tbody>
         </table>
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
   {% endblock %}
 {% endblock %}

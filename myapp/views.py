@@ -16,31 +16,31 @@ def home(request):
     if "query" in request.GET:
         results = Task.objects.filter(isCompleted=False)
 
-    return render(request, "active-tasks.html", {"results": results})
+    return render(request, "myapp/active-tasks.html", {"results": results})
 
 
 @login_required
 def employees(request):
     context = {"employees": Employee.objects.all()}
-    return render(request, "employees.html", context)
+    return render(request, "myapp/employee_list.html", context)
 
 
 @login_required
 def vehicles(request):
     context = {"vehicles": Vehicle.objects.all()}
-    return render(request, "vehicles.html", context)
+    return render(request, "myapp/vehicle_list.html", context)
 
 
 @login_required
 def clients(request):
     context = {"clients": Client.objects.all()}
-    return render(request, "clients.html", context)
+    return render(request, "myapp/client_list.html", context)
 
 
 @login_required
 def tasks(request):
     context = {"tasks": Task.objects.all()}
-    return render(request, "tasks.html", context)
+    return render(request, "myapp/task_list.html", context)
 
 
 def find_results_by_model(model: models.Model, query):
@@ -71,7 +71,7 @@ def search_view(request, model: models.Model):
     form = SearchForm()
     query = None
     results = []
-    modelName = model._meta.model_name.lower() + "s.html"
+    modelName = f"myapp/{model._meta.model_name.lower()}_list.html"
     if "query" in request.GET:
         form = SearchForm(request.GET)
         if form.is_valid():
@@ -83,10 +83,11 @@ def search_view(request, model: models.Model):
                 "results": results,
                 "basehtml": modelName,
             }
+            return render(request, modelName, context)
     else:
         context = {"form": form, "basehtml": modelName}
-    print("results: ", results)
-    return render(request, "search-form.html", context)
+
+    return render(request, "myapp/search-form.html", context)
 
 
 @login_required
@@ -113,27 +114,27 @@ def search_tasks(request):
 # TODO: a cada model (usar lógica similar al search)
 
 
-@login_required
-def add_client_form(request):
-    if request.method == "POST":
-        myForm = ClientForm(request.POST)
-        if myForm.is_valid:
-            info = myForm.data
-            client = Client(
-                DNI=info["DNI"],
-                last_name=info["last_name"],
-                name=info["name"],
-                email=info["email"],
-                tel=info["tel"],
-            )
-            client.save()
-            context = {"clients": Client.objects.all()}
-            return render(request, "clients.html", context)
+# @login_required
+# def add_client_form(request):
+#     if request.method == "POST":
+#         myForm = ClientForm(request.POST)
+#         if myForm.is_valid:
+#             info = myForm.data
+#             client = Client(
+#                 DNI=info["DNI"],
+#                 last_name=info["last_name"],
+#                 name=info["name"],
+#                 email=info["email"],
+#                 tel=info["tel"],
+#             )
+#             client.save()
+#             context = {"clients": Client.objects.all()}
+#             return render(request, "clients.html", context)
 
-    else:
-        myForm = ClientForm()
+#     else:
+#         myForm = ClientForm()
 
-    return render(request, "add-client.html", {"myForm": myForm})
+#     return render(request, "add-client.html", {"myForm": myForm})
 
 
 @login_required
@@ -151,12 +152,12 @@ def add_vehicle_form(request):
             )
             vehicle.save()
             context = {"vehicles": Vehicle.objects.all()}
-            return render(request, "vehicles.html", context)
+            return render(request, "myapp/vehicles.html", context)
 
     else:
         myForm = VehicleForm()
 
-    return render(request, "add-vehicle.html", {"myForm": myForm})
+    return render(request, "myapp/add-vehicle.html", {"myForm": myForm})
 
 
 @login_required
@@ -172,12 +173,12 @@ def add_task_form(request):
             )
             task.save()
             context = {"tasks": Task.objects.all()}
-            return render(request, "tasks.html", context)
+            return render(request, "myapp/tasks.html", context)
 
     else:
         myForm = TaskForm()
 
-    return render(request, "add-task.html", {"myForm": myForm})
+    return render(request, "myapp/add-task.html", {"myForm": myForm})
 
 
 @login_required
@@ -194,12 +195,12 @@ def add_employee_form(request):
             )
             employee.save()
             context = {"employees": Employee.objects.all()}
-            return render(request, "employees.html", context)
+            return render(request, "myapp/employees.html", context)
 
     else:
         myForm = EmployeeForm()
 
-    return render(request, "add-employee.html", {"myForm": myForm})
+    return render(request, "myapp/add-employee.html", {"myForm": myForm})
 
 
 # Class Based Views
@@ -298,13 +299,13 @@ def login_request(request):
         user = authenticate(request, username=user_name, password=pass_word)
         if user is not None:
             login(request, user)
-            return render(request, "index.html")
+            return render(request, "myapp/index.html")
         else:
             return redirect(reverse_lazy("login"))
     else:
         myForm = AuthenticationForm()
 
-    return render(request, "login.html", {"form": myForm})
+    return render(request, "myapp/login.html", {"form": myForm})
 
 
 def register(request):
@@ -321,4 +322,4 @@ def register(request):
     else:
         myForm = RegisterForm()
 
-    return render(request, "register.html", {"form": myForm})
+    return render(request, "myapp/register.html", {"form": myForm})

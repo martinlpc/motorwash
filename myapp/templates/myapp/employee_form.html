@@ -1,12 +1,12 @@
-{% extends 'vehicles.html' %}
-{% if myForm.errors %}
+{% extends 'myapp/employee_list.html' %}
+{% if form.errors %}
   <p>Hay errores en los datos ingresados, verifique</p>
 {% endif %}
 
 {% block content %}
   <form action="" method="POST">
     {% csrf_token %}
-    <table>{{ myForm.as_table }}</table>
+    <table>{{ form.as_table }}</table>
     <input class="btn btn-primary" type="submit" value="Agregar" />
   </form>
 {% endblock %}

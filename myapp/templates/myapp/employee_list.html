@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'myapp/index.html' %}
 
 {% block title %}
   <h1 class="mb-5">Empleados</h1>
@@ -13,8 +13,8 @@
   </div>
 
   {% block queryResults %}
-    <div class="row gx-4 justify-content-center">
-      {% if results %}
+    {% if results %}
+      <div class="row gx-4 justify-content-center">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -25,7 +25,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for c in employees %}
+            {% for c in results %}
               <tr>
                 <td>{{ c.last_name }}</td>
                 <td>{{ c.name }}</td>
@@ -35,7 +35,7 @@
             {% endfor %}
           </tbody>
         </table>
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
   {% endblock %}
 {% endblock %}

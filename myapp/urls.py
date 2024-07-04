@@ -11,22 +11,22 @@ urlpatterns = [
     # _______ Forms
     # Clients
     path("add/client/", CreateClient.as_view(), name="add-client"),
-    path("search/client/", ListClient.as_view(), name="search-client"),
+    path("search/client/", search_clients, name="search-client"),
     path("update/client/", UpdateClient.as_view(), name="update-client"),
     path("delete/client/", DeleteClient.as_view(), name="delete-client"),
     # Vehicles
     path("add/vehicle/", CreateVehicle.as_view(), name="add-vehicle"),
-    path("search/vehicle/", ListVehicle.as_view(), name="search-vehicle"),
+    path("search/vehicle/", search_vehicles, name="search-vehicle"),
     path("update/vehicle/", UpdateVehicle.as_view(), name="update-vehicle"),
     path("delete/vehicle/", DeleteVehicle.as_view(), name="delete-vehicle"),
     # Tasks
-    path("add/task/", CreateTask.as_view, name="add-task"),
-    path("search/task/", ListTask.as_view(), name="search-task"),
+    path("add/task/", CreateTask.as_view(), name="add-task"),
+    path("search/task/", search_tasks, name="search-task"),
     path("update/task/", UpdateTask.as_view(), name="update-task"),
     path("delete/task/", DeleteTask.as_view(), name="delete-task"),
     # Employees
     path("add/employee/", CreateEmployee.as_view(), name="add-employee"),
-    path("search/employee/", ListEmployee.as_view(), name="search-employee"),
+    path("search/employee/", search_employees, name="search-employee"),
     path("update/employee/", UpdateEmployee.as_view(), name="update-employee"),
     path("delete/employee/", DeleteEmployee.as_view(), name="delete-employee"),
     # Login/logout/register

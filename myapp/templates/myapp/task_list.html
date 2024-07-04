@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'myapp/index.html' %}
 
 {% block title %}
   <h1 class="mb-5">Tareas</h1>
@@ -12,8 +12,8 @@
     </div>
   </div>
   {% block queryResults %}
-    <div class="row gx-4 justify-content-center">
-      {% if results %}
+    {% if results %}
+      <div class="row gx-4 justify-content-center">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -23,7 +23,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for c in tasks %}
+            {% for c in results %}
               <tr>
                 <td>{{ c.is_completed }}</td>
                 <td>{{ c.asigned_to }}</td>
@@ -33,7 +33,7 @@
             {% endfor %}
           </tbody>
         </table>
-      {% endif %}
-    </div>
+      </div>
+    {% endif %}
   {% endblock %}
 {% endblock %}
