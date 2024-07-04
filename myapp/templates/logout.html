@@ -1,0 +1,10 @@
+{% extends 'index.html' %}
+
+{% block title %}
+  <h2>Logout</h2>
+{% endblock %}
+
+{% block content %}
+  {% csrf_token %}
+  <h4>Se ha deslogueado correctamente</h4>
+{% endblock %}

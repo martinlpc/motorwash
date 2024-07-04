@@ -1,4 +1,6 @@
 from django import forms
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 
 
 class ClientForm(forms.Form):
@@ -42,3 +44,24 @@ class EmployeeForm(forms.Form):
 
 class SearchForm(forms.Form):
     query = forms.CharField(label="Buscar palabra clave", max_length=80)
+
+
+class RegisterForm(UserCreationForm):
+    first_name = forms.CharField(label="Nombre")
+    last_name = forms.CharField(label="Apellido")
+    email = forms.EmailField(required=True)
+    password1 = forms.CharField(label="Contraseña", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Repita contraseña", widget=forms.PasswordInput
+    )
+
+    class Meta:
+        model = User
+        fields = [
+            "first_name",
+            "last_name",
+            "username",
+            "email",
+            "password1",
+            "password2",
+        ]

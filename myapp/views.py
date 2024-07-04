@@ -1,5 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.db.models import Q
+from django.views.generic import CreateView, UpdateView, DeleteView, ListView
+from django.urls import reverse_lazy
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 
@@ -13,21 +19,25 @@ def home(request):
     return render(request, "active-tasks.html", {"results": results})
 
 
+@login_required
 def employees(request):
     context = {"employees": Employee.objects.all()}
     return render(request, "employees.html", context)
 
 
+@login_required
 def vehicles(request):
     context = {"vehicles": Vehicle.objects.all()}
     return render(request, "vehicles.html", context)
 
 
+@login_required
 def clients(request):
     context = {"clients": Client.objects.all()}
     return render(request, "clients.html", context)
 
 
+@login_required
 def tasks(request):
     context = {"tasks": Task.objects.all()}
     return render(request, "tasks.html", context)
@@ -79,18 +89,22 @@ def search_view(request, model: models.Model):
     return render(request, "search-form.html", context)
 
 
+@login_required
 def search_clients(request):
     return search_view(request, Client)
 
 
+@login_required
 def search_employees(request):
     return search_view(request, Employee)
 
 
+@login_required
 def search_vehicles(request):
     return search_view(request, Vehicle)
 
 
+@login_required
 def search_tasks(request):
     return search_view(request, Task)
 
@@ -99,6 +113,7 @@ def search_tasks(request):
 # TODO: a cada model (usar lógica similar al search)
 
 
+@login_required
 def add_client_form(request):
     if request.method == "POST":
         myForm = ClientForm(request.POST)
@@ -121,6 +136,7 @@ def add_client_form(request):
     return render(request, "add-client.html", {"myForm": myForm})
 
 
+@login_required
 def add_vehicle_form(request):
     if request.method == "POST":
         myForm = VehicleForm(request.POST)
@@ -143,6 +159,7 @@ def add_vehicle_form(request):
     return render(request, "add-vehicle.html", {"myForm": myForm})
 
 
+@login_required
 def add_task_form(request):
     if request.method == "POST":
         myForm = TaskForm(request.POST)
@@ -163,6 +180,7 @@ def add_task_form(request):
     return render(request, "add-task.html", {"myForm": myForm})
 
 
+@login_required
 def add_employee_form(request):
     if request.method == "POST":
         myForm = EmployeeForm(request.POST)
@@ -182,3 +200,125 @@ def add_employee_form(request):
         myForm = EmployeeForm()
 
     return render(request, "add-employee.html", {"myForm": myForm})
+
+
+# Class Based Views
+class CreateClient(LoginRequiredMixin, CreateView):
+    model = Client
+    fields = ["DNI", "last_name", "name", "email", "tel"]
+    success_url = reverse_lazy("clients")
+
+
+class ListClient(LoginRequiredMixin, ListView):
+    model = Client
+
+
+class UpdateClient(LoginRequiredMixin, UpdateView):
+    model = Client
+    fields = ["DNI", "last_name", "name", "email", "tel"]
+    success_url = reverse_lazy("clients")
+
+
+class DeleteClient(LoginRequiredMixin, DeleteView):
+    model = Client
+    success_url = reverse_lazy("clients")
+
+
+class CreateVehicle(LoginRequiredMixin, CreateView):
+    model = Vehicle
+    fields = ["plate_ID", "vehicle_type", "brand", "brand_model", "owner_DNI"]
+    success_url = reverse_lazy("vehicles")
+
+
+class ListVehicle(LoginRequiredMixin, ListView):
+    model = Vehicle
+
+
+class UpdateVehicle(LoginRequiredMixin, UpdateView):
+    model = Vehicle
+    fields = ["plate_ID", "vehicle_type", "brand", "brand_model", "owner_DNI"]
+    success_url = reverse_lazy("vehicles")
+
+
+class DeleteVehicle(LoginRequiredMixin, DeleteView):
+    model = Vehicle
+    success_url = reverse_lazy("vehicles")
+
+
+class CreateEmployee(LoginRequiredMixin, CreateView):
+    model = Employee
+    fields = ["DNI", "last_name", "name", "tel"]
+    success_url = reverse_lazy("employees")
+
+
+class ListEmployee(LoginRequiredMixin, ListView):
+    model = Employee
+
+
+class UpdateEmployee(LoginRequiredMixin, UpdateView):
+    model = Employee
+    fields = ["DNI", "last_name", "name", "tel"]
+    success_url = reverse_lazy("employees")
+
+
+class DeleteEmployee(LoginRequiredMixin, DeleteView):
+    model = Employee
+    success_url = reverse_lazy("employees")
+
+
+class CreateTask(LoginRequiredMixin, CreateView):
+    model = Task
+    fields = ["asigned_to", "vehicle_ID", "description"]
+    success_url = reverse_lazy("tasks")
+
+
+class ListTask(LoginRequiredMixin, ListView):
+    model = Task
+
+
+class UpdateTask(LoginRequiredMixin, UpdateView):
+    model = Task
+    fields = ["asigned_to", "vehicle_ID", "description"]
+    success_url = reverse_lazy("tasks")
+
+
+class DeleteTask(LoginRequiredMixin, DeleteView):
+    model = Task
+    success_url = reverse_lazy("tasks")
+
+
+# Login / Logout / Register
+
+
+# * Método con función
+def login_request(request):
+    if request.method == "POST":
+        user_name = request.POST["username"]
+        pass_word = request.POST["password"]
+        user = authenticate(request, username=user_name, password=pass_word)
+        if user is not None:
+            login(request, user)
+            return render(request, "index.html")
+        else:
+            return redirect(reverse_lazy("login"))
+    else:
+        myForm = AuthenticationForm()
+
+    return render(request, "login.html", {"form": myForm})
+
+
+def register(request):
+    if request.method == "POST":
+        myForm = RegisterForm(request.POST)
+        if myForm.is_valid():
+            user = myForm.cleaned_data.get(
+                "username"
+            )  # TODO: usar esta var para chequear si ya existe
+            myForm.save()
+
+            return redirect(request, reverse_lazy("home"))
+
+    else:
+        myForm = RegisterForm()
+
+    return render(request, "register.html", {"form": myForm})
