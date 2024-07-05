@@ -25,10 +25,10 @@
             </tr>
           </thead>
           <tbody>
-            {% for c in tasks %}
+            {% for c in results %}
               <tr>
-                <td>{{ c.vehicle_ID }}</td>
                 <td>{{ c.asigned_to }}</td>
+                <td>{{ c.vehicle_ID }}</td>
                 <td>{{ c.description }}</td>
               </tr>
             {% endfor %}

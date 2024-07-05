@@ -17,18 +17,31 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th>Completado?</th>
               <th>Asignado a</th>
               <th>Patente del vehículo</th>
               <th>Descripción de tarea a realizar</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
-            {% for c in results %}
+            {% for task in results %}
               <tr>
-                <td>{{ c.is_completed }}</td>
-                <td>{{ c.asigned_to }}</td>
-                <td>{{ c.vehicle_ID }}</td>
-                <td>{{ c.description }}</td>
+                <td>{{ task.is_completed }}</td>
+                <td>{{ task.asigned_to }}</td>
+                <td>{{ task.vehicle_ID }}</td>
+                <td>{{ task.description }}</td>
+                <td>
+                  <a class="btn btn-primary" href="{% url 'update-task' task.id %}"><i class="fa-solid fa-edit fa-sm" title="Edit registry"></i></a>
+                  <a class="btn btn-danger" href="{% url 'delete-task' task.id %}"><i class="fa-solid fa-trash fa-sm" title="Delete registry"></i></a>
+
+                  {% if not task.is_completed %}
+                    <form action="{% url 'complete-task' %}" method="post">
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-success" name="id" value="{{ task.id }}"><i class="fa-solid fa-circle-check fa-sm" title="Completar tarea"></i></button>
+                    </form>
+                  {% endif %}
+                </td>
               </tr>
             {% endfor %}
           </tbody>

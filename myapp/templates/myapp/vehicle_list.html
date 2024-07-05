@@ -23,6 +23,7 @@
               <th>Marca</th>
               <th>Modelo</th>
               <th>DNI dueño/a</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -33,6 +34,10 @@
                 <td>{{ c.brand }}</td>
                 <td>{{ c.brand_model }}</td>
                 <td>{{ c.owner_DNI }}</td>
+                <td>
+                  <a class="btn btn-primary" href="{% url 'update-vehicle' c.id %}"><i class="fa fa-edit fa-sm" title="Edit registry"></i></a>
+                  <a class="btn btn-danger" href="{% url 'delete-vehicle' c.id %}"><i class="fa fa-trash fa-sm" title="Delete registry"></i></a>
+                </td>
               </tr>
             {% endfor %}
           </tbody>

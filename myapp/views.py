@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Q
 from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
@@ -12,10 +12,7 @@ from .forms import *
 
 def home(request):
 
-    results = []
-    if "query" in request.GET:
-        results = Task.objects.filter(isCompleted=False)
-
+    results = Task.objects.filter(is_completed=False)
     return render(request, "myapp/active-tasks.html", {"results": results})
 
 
@@ -110,33 +107,6 @@ def search_tasks(request):
     return search_view(request, Task)
 
 
-# TODO: Ver como integrar un unico form POST adaptable
-# TODO: a cada model (usar lógica similar al search)
-
-
-# @login_required
-# def add_client_form(request):
-#     if request.method == "POST":
-#         myForm = ClientForm(request.POST)
-#         if myForm.is_valid:
-#             info = myForm.data
-#             client = Client(
-#                 DNI=info["DNI"],
-#                 last_name=info["last_name"],
-#                 name=info["name"],
-#                 email=info["email"],
-#                 tel=info["tel"],
-#             )
-#             client.save()
-#             context = {"clients": Client.objects.all()}
-#             return render(request, "clients.html", context)
-
-#     else:
-#         myForm = ClientForm()
-
-#     return render(request, "add-client.html", {"myForm": myForm})
-
-
 @login_required
 def add_vehicle_form(request):
     if request.method == "POST":
@@ -201,6 +171,18 @@ def add_employee_form(request):
         myForm = EmployeeForm()
 
     return render(request, "myapp/add-employee.html", {"myForm": myForm})
+
+
+@login_required
+def complete_task(request):
+    if request.method == "POST":
+        task_id = request.POST.get("id")
+        task = get_object_or_404(Task, id=task_id)
+        task.is_completed = True
+        task.save()
+        return redirect("search-task")
+
+    return render(request, "myapp/task_list.html")
 
 
 # Class Based Views
@@ -312,12 +294,14 @@ def register(request):
     if request.method == "POST":
         myForm = RegisterForm(request.POST)
         if myForm.is_valid():
-            user = myForm.cleaned_data.get(
-                "username"
-            )  # TODO: usar esta var para chequear si ya existe
-            myForm.save()
-
-            return redirect(request, reverse_lazy("home"))
+            user = myForm.cleaned_data.get("username")
+            if User.objects.filter(username=user).exists():
+                myForm.add_error(
+                    "username", "Nombre de usuario no disponible."
+                )
+            else:
+                myForm.save()
+                return redirect(reverse_lazy("home"))
 
     else:
         myForm = RegisterForm()
