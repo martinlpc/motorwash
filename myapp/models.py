@@ -50,3 +50,6 @@ class Task(models.Model):
 
     def __str__(self):
         return f"[{self.created}] {self.vehicle_ID} asignado a {self.asigned_to}: {self.description}"
+
+    def formatted_created(self):
+        return self.created.strftime("%d/%m/%Y %H:%M:%S")

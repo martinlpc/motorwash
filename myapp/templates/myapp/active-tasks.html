@@ -19,17 +19,19 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th>Fecha y hora</th>
               <th>Asignado a</th>
               <th>Patente del vehículo</th>
               <th>Descripción de tarea a realizar</th>
             </tr>
           </thead>
           <tbody>
-            {% for c in results %}
+            {% for task in results %}
               <tr>
-                <td>{{ c.asigned_to }}</td>
-                <td>{{ c.vehicle_ID }}</td>
-                <td>{{ c.description }}</td>
+                <td>{{ task.created }}</td>
+                <td>{{ task.asigned_to }}</td>
+                <td>{{ task.vehicle_ID }}</td>
+                <td>{{ task.description }}</td>
               </tr>
             {% endfor %}
           </tbody>
