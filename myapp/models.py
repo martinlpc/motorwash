@@ -18,7 +18,7 @@ class Client(models.Model):
 
 
 class Vehicle(models.Model):
-    plate_ID = models.CharField(max_length=7)  # ABC123 / AB123CD
+    plate_ID = models.CharField(max_length=7, unique=True)  # ABC123 / AB123CD
     vehicle_type = models.CharField(max_length=15)
     brand = models.CharField(max_length=50)
     brand_model = models.CharField(max_length=50)
@@ -44,7 +44,9 @@ class Employee(models.Model):
 class Task(models.Model):
     created = models.DateTimeField(default=timezone.now)
     asigned_to = models.CharField(max_length=8)  # Por número de DNI
-    vehicle_ID = models.CharField(max_length=7)  # Por patente
+    vehicle = models.ForeignKey(
+        Vehicle, to_field="plate_ID", on_delete=models.SET_NULL, null=True
+    )  # Por patente
     description = models.CharField(max_length=80, default="")
     is_completed = models.BooleanField(default=False)
 

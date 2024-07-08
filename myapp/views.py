@@ -42,17 +42,23 @@ def tasks(request):
 
 def find_results_by_model(model: models.Model, query):
     criteria = {
-        Client: Q(DNI__icontains=query)
-        | Q(last_name__icontains=query)
-        | Q(name__icontains=query)
-        | Q(DNI__icontains=query)
-        | Q(email__icontains=query)
-        | Q(tel__icontains=query),
-        Vehicle: Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query),
-        Task: Q(vehicle_ID__icontains=query),
-        Employee: Q(DNI__icontains=query)
-        | Q(name__icontains=query)
-        | Q(last_name__icontains=query),
+        Client: (
+            Q(DNI__icontains=query)
+            | Q(last_name__icontains=query)
+            | Q(name__icontains=query)
+            | Q(DNI__icontains=query)
+            | Q(email__icontains=query)
+            | Q(tel__icontains=query)
+        ),
+        Vehicle: (
+            Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query)
+        ),
+        Task: (Q(vehicle__plate_ID__icontains=query)),
+        Employee: (
+            Q(DNI__icontains=query)
+            | Q(name__icontains=query)
+            | Q(last_name__icontains=query)
+        ),
     }
 
     return model.objects.filter(criteria.get(model))

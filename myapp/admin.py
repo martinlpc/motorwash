@@ -15,10 +15,15 @@ class EmployeeAdmin(admin.ModelAdmin):
 
 
 class TaskAdmin(admin.ModelAdmin):
-    list_display = ("vehicle_ID", "asigned_to", "description", "is_completed")
+    list_display = (
+        "vehicle",
+        "asigned_to",
+        "description",
+        "is_completed",
+    )
     list_filter = (
         "is_completed",
-        "vehicle_ID",
+        "vehicle",
     )
 
 
