@@ -281,7 +281,8 @@ def login_request(request):
         user = authenticate(request, username=user_name, password=pass_word)
         if user is not None:
             login(request, user)
-            return render(request, "myapp/index.html")
+            # return render(request, "myapp/active-tasks.html")
+            return redirect(reverse_lazy("home"))
         else:
             return redirect(reverse_lazy("login"))
     else:
