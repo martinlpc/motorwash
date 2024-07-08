@@ -29,7 +29,7 @@
             {% for task in results %}
               <tr>
                 <td>{{ task.created }}</td>
-                <td>{{ task.asigned_to }}</td>
+                <td>{{ task.asigned_to.last_name }} {{ task.asigned_to.name }}</td>
                 <td>{{ task.vehicle.plate_ID }}</td>
                 <td>{{ task.description }}</td>
               </tr>
