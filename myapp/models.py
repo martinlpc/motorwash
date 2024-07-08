@@ -32,7 +32,7 @@ class Vehicle(models.Model):
 
 
 class Employee(models.Model):
-    DNI = models.CharField(max_length=8)
+    DNI = models.CharField(max_length=8, unique=True)
     last_name = models.CharField(max_length=80)
     name = models.CharField(max_length=80)
     tel = models.CharField(max_length=10)
@@ -43,7 +43,9 @@ class Employee(models.Model):
 
 class Task(models.Model):
     created = models.DateTimeField(default=timezone.now)
-    asigned_to = models.CharField(max_length=8)  # Por número de DNI
+    asigned_to = models.ForeignKey(
+        Employee, to_field="DNI", null=True, on_delete=models.SET_NULL
+    )  # Por número de DNI
     vehicle = models.ForeignKey(
         Vehicle, to_field="plate_ID", on_delete=models.SET_NULL, null=True
     )  # Por patente
@@ -51,7 +53,7 @@ class Task(models.Model):
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"[{self.created}] {self.vehicle_ID} asignado a {self.asigned_to}: {self.description}"
+        return f"[{self.created}] {self.vehicle} asignado a {self.asigned_to}: {self.description}"
 
     def formatted_created(self):
         return self.created.strftime("%d/%m/%Y %H:%M:%S")
