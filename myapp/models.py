@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 
 # Create your models here.
@@ -57,3 +58,11 @@ class Task(models.Model):
 
     def formatted_created(self):
         return self.created.strftime("%d/%m/%Y %H:%M:%S")
+
+
+class Avatar(models.Model):
+    img = models.ImageField(upload_to="avatars")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user} {self.img}"

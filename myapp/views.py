@@ -4,6 +4,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView, ListView
 from django.urls import reverse_lazy
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.views import PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from .models import *
@@ -287,7 +288,14 @@ def login_request(request):
         user = authenticate(request, username=user_name, password=pass_word)
         if user is not None:
             login(request, user)
-            # return render(request, "myapp/active-tasks.html")
+            # Recuperar avatar del usuario
+            try:
+                avatar = Avatar.objects.get(user=request.user.id).img.url
+            except:
+                avatar = "/media/avatars/default.png"
+            finally:
+                request.session["avatar"] = avatar
+
             return redirect(reverse_lazy("home"))
         else:
             return redirect(reverse_lazy("login"))
@@ -314,3 +322,53 @@ def register(request):
         myForm = RegisterForm()
 
     return render(request, "myapp/register.html", {"form": myForm})
+
+
+@login_required
+def edit_profile(request):
+    currentUser = request.user
+    if request.method == "POST":
+        myForm = EditUserForm(request.POST)
+        if myForm.is_valid():
+            user = User.objects.get(username=currentUser)
+            user.email = myForm.cleaned_data.get("email")
+            user.first_name = myForm.cleaned_data.get("first_name")
+            user.last_name = myForm.cleaned_data.get("last_name")
+            user.save()
+
+            return redirect(reverse_lazy("home"))
+    else:
+        myForm = EditUserForm(instance=currentUser)
+
+    return render(request, "myapp/edit_profile.html", {"form": myForm})
+
+
+class ChangePassword(LoginRequiredMixin, PasswordChangeView):
+    template_name = "myapp/password.html"
+    success_url = reverse_lazy("home")
+
+
+@login_required
+def add_avatar(request):
+    if request.method == "POST":
+        myForm = AvatarForm(request.POST, request.FILES)
+        if myForm.is_valid():
+            currentUser = User.objects.get(username=request.user)
+            newAvatar = myForm.cleaned_data["img"]
+            # Borrar avatares antiguos
+            oldAvatar = Avatar.objects.filter(user=currentUser)
+            if len(oldAvatar) > 0:
+                for i in range(len(oldAvatar)):
+                    oldAvatar[i].delete()
+            avatar = Avatar(user=currentUser, img=newAvatar)
+            avatar.save()
+            # Enviar el avatar a home
+            img = Avatar.objects.get(user=currentUser).img.url
+            request.session["avatar"] = img
+
+            return redirect(reverse_lazy("home"))
+
+    else:
+        myForm = AvatarForm()
+
+    return render(request, "myapp/avatar.html", {"form": myForm})

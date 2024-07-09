@@ -1,0 +1,13 @@
+{% extends 'myapp/index.html' %}
+
+{% block title %}
+  <h2 class="">Editar mi perfil</h2>
+{% endblock %}
+
+{% block content %}
+  <form action="" method="post">
+    {% csrf_token %}
+    <table>{{ form.as_table }}</table>
+    <input type="submit" value="Enviar" />
+  </form>
+{% endblock %}

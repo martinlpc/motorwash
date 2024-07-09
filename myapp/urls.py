@@ -58,4 +58,8 @@ urlpatterns = [
         name="logout",
     ),
     path("register/", register, name="register"),
+    # Profile edit / avatar
+    path("profile/", edit_profile, name="profile"),
+    path("<int:pk>/password/", ChangePassword.as_view(), name="password"),
+    path("avatar/", add_avatar, name="add-avatar"),
 ]
