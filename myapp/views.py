@@ -12,9 +12,12 @@ from .forms import *
 
 
 def home(request):
-
     results = Task.objects.filter(is_completed=False)
-    return render(request, "myapp/active-tasks.html", {"results": results})
+    return render(request, "myapp/active_tasks.html", {"results": results})
+
+
+def about_me(request):
+    return render(request, "myapp/about_me.html")
 
 
 @login_required
@@ -42,27 +45,30 @@ def tasks(request):
 
 
 def find_results_by_model(model: models.Model, query):
-    criteria = {
-        Client: (
-            Q(DNI__icontains=query)
-            | Q(last_name__icontains=query)
-            | Q(name__icontains=query)
-            | Q(DNI__icontains=query)
-            | Q(email__icontains=query)
-            | Q(tel__icontains=query)
-        ),
-        Vehicle: (
-            Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query)
-        ),
-        Task: (Q(vehicle__plate_ID__icontains=query)),
-        Employee: (
-            Q(DNI__icontains=query)
-            | Q(name__icontains=query)
-            | Q(last_name__icontains=query)
-        ),
-    }
+    if query == "*":
+        return model.objects.all()
+    else:
+        criteria = {
+            Client: (
+                Q(DNI__icontains=query)
+                | Q(last_name__icontains=query)
+                | Q(name__icontains=query)
+                | Q(DNI__icontains=query)
+                | Q(email__icontains=query)
+                | Q(tel__icontains=query)
+            ),
+            Vehicle: (
+                Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query)
+            ),
+            Task: (Q(vehicle__plate_ID__icontains=query)),
+            Employee: (
+                Q(DNI__icontains=query)
+                | Q(name__icontains=query)
+                | Q(last_name__icontains=query)
+            ),
+        }
 
-    return model.objects.filter(criteria.get(model))
+        return model.objects.filter(criteria.get(model))
 
 
 # Forms
@@ -81,6 +87,9 @@ def search_view(request, model: models.Model):
         if form.is_valid():
             query = form.cleaned_data["query"]
             results = find_results_by_model(model, query)
+            # Las primeras tareas a listar serán las últimas que se crearon
+            if model == Task:
+                results = results.order_by("-id")
             context = {
                 "form": form,
                 "query": query,
@@ -91,7 +100,7 @@ def search_view(request, model: models.Model):
     else:
         context = {"form": form, "basehtml": modelName}
 
-    return render(request, "myapp/search-form.html", context)
+    return render(request, "myapp/search_form.html", context)
 
 
 @login_required
@@ -115,72 +124,6 @@ def search_tasks(request):
 
 
 @login_required
-def add_vehicle_form(request):
-    if request.method == "POST":
-        myForm = VehicleForm(request.POST)
-        if myForm.is_valid:
-            info = myForm.data
-            vehicle = Vehicle(
-                plate_ID=info["plate_ID"],
-                vehicle_type=info["vehicle_type"],
-                brand=info["brand"],
-                brand_model=info["brand_model"],
-                owner_DNI=info["owner_DNI"],
-            )
-            vehicle.save()
-            context = {"vehicles": Vehicle.objects.all()}
-            return render(request, "myapp/vehicles.html", context)
-
-    else:
-        myForm = VehicleForm()
-
-    return render(request, "myapp/add-vehicle.html", {"myForm": myForm})
-
-
-@login_required
-def add_task_form(request):
-    if request.method == "POST":
-        myForm = TaskForm(request.POST)
-        if myForm.is_valid:
-            info = myForm.data
-            task = Task(
-                asigned_to=info["asigned_to"],
-                vehicle_ID=info["vehicle_ID"],
-                description=info["description"],
-            )
-            task.save()
-            context = {"tasks": Task.objects.all()}
-            return render(request, "myapp/tasks.html", context)
-
-    else:
-        myForm = TaskForm()
-
-    return render(request, "myapp/add-task.html", {"myForm": myForm})
-
-
-@login_required
-def add_employee_form(request):
-    if request.method == "POST":
-        myForm = EmployeeForm(request.POST)
-        if myForm.is_valid:
-            info = myForm.data
-            employee = Employee(
-                DNI=info["DNI"],
-                last_name=info["last_name"],
-                name=info["name"],
-                tel=info["tel"],
-            )
-            employee.save()
-            context = {"employees": Employee.objects.all()}
-            return render(request, "myapp/employees.html", context)
-
-    else:
-        myForm = EmployeeForm()
-
-    return render(request, "myapp/add-employee.html", {"myForm": myForm})
-
-
-@login_required
 def complete_task(request):
     if request.method == "POST":
         task_id = request.POST.get("id")
@@ -195,7 +138,7 @@ def complete_task(request):
 # Class Based Views
 class CreateClient(LoginRequiredMixin, CreateView):
     model = Client
-    fields = ["DNI", "last_name", "name", "email", "tel"]
+    form_class = ClientForm
     success_url = reverse_lazy("clients")
 
 
@@ -216,7 +159,7 @@ class DeleteClient(LoginRequiredMixin, DeleteView):
 
 class CreateVehicle(LoginRequiredMixin, CreateView):
     model = Vehicle
-    fields = ["plate_ID", "vehicle_type", "brand", "brand_model", "owner_DNI"]
+    form_class = VehicleForm
     success_url = reverse_lazy("vehicles")
 
 
@@ -226,7 +169,7 @@ class ListVehicle(LoginRequiredMixin, ListView):
 
 class UpdateVehicle(LoginRequiredMixin, UpdateView):
     model = Vehicle
-    fields = ["plate_ID", "vehicle_type", "brand", "brand_model", "owner_DNI"]
+    form_class = UpdateVehicleForm
     success_url = reverse_lazy("vehicles")
 
 
@@ -237,7 +180,7 @@ class DeleteVehicle(LoginRequiredMixin, DeleteView):
 
 class CreateEmployee(LoginRequiredMixin, CreateView):
     model = Employee
-    fields = ["DNI", "last_name", "name", "tel"]
+    form_class = EmployeeForm
     success_url = reverse_lazy("employees")
 
 
@@ -247,7 +190,7 @@ class ListEmployee(LoginRequiredMixin, ListView):
 
 class UpdateEmployee(LoginRequiredMixin, UpdateView):
     model = Employee
-    fields = ["DNI", "last_name", "name", "tel"]
+    form_class = EmployeeForm
     success_url = reverse_lazy("employees")
 
 
@@ -258,12 +201,13 @@ class DeleteEmployee(LoginRequiredMixin, DeleteView):
 
 class CreateTask(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ["asigned_to", "vehicle_ID", "description"]
+    form_class = TaskForm
     success_url = reverse_lazy("tasks")
 
 
 class ListTask(LoginRequiredMixin, ListView):
     model = Task
+    ordering = ["-created"]
 
 
 class UpdateTask(LoginRequiredMixin, UpdateView):
@@ -357,9 +301,8 @@ def add_avatar(request):
             newAvatar = myForm.cleaned_data["img"]
             # Borrar avatares antiguos
             oldAvatar = Avatar.objects.filter(user=currentUser)
-            if len(oldAvatar) > 0:
-                for i in range(len(oldAvatar)):
-                    oldAvatar[i].delete()
+            if oldAvatar.exists():
+                oldAvatar.delete()
             avatar = Avatar(user=currentUser, img=newAvatar)
             avatar.save()
             # Enviar el avatar a home

@@ -4,6 +4,7 @@ from .views import *
 
 urlpatterns = [
     path("", home, name="home"),  # Se muestran tareas en curso unicamente
+    path("about/", about_me, name="about-me"),
     path("employees/", employees, name="employees"),
     path("clients/", clients, name="clients"),
     path("vehicles/", vehicles, name="vehicles"),

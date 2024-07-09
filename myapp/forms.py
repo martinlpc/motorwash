@@ -2,48 +2,94 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
-
-class ClientForm(forms.Form):
-    name = forms.CharField(max_length=80, label="Nombre")
-    last_name = forms.CharField(max_length=80, label="Apellido")
-    DNI = forms.CharField(max_length=8)
-    email = forms.EmailField()
-    tel = forms.CharField(max_length=10, label="Teléfono")
+from .models import *
 
 
-class VehicleForm(forms.Form):
-    plate_ID = forms.CharField(max_length=7, label="Patente")
-    types = [
-        ("Auto", "Auto"),
-        ("SUV", "SUV"),
-        ("Camioneta", "Camioneta"),
-        ("Moto", "Moto"),
-    ]
-    vehicle_type = forms.ChoiceField(
-        choices=types,
-        widget=forms.Select(attrs={"class": "form-control"}),
-        label="Tipo de vehículo",
-    )
-    brand = forms.CharField(max_length=50, label="Marca")
-    brand_model = forms.CharField(max_length=50, label="Modelo")
-    owner_DNI = forms.CharField(max_length=8, label="DNI del propietario")
+class ClientForm(forms.ModelForm):
+    class Meta:
+        model = Client
+        fields = ["DNI", "last_name", "name", "email", "tel"]
+        labels = {
+            "DNI": "DNI",
+            "last_name": "Apellido",
+            "name": "Nombre(s)",
+            "email": "Email",
+            "tel": "Teléfono de contacto",
+        }
 
 
-class TaskForm(forms.Form):
-    asigned_to = forms.CharField(max_length=8, label="DNI empleado")
-    vehicle_ID = forms.CharField(max_length=7, label="Patente del vehículo")
-    description = forms.CharField(max_length=80, label="Tarea a realizar")
+class VehicleForm(forms.ModelForm):
+    class Meta:
+        model = Vehicle
+        fields = [
+            "plate_ID",
+            "vehicle_type",
+            "brand",
+            "brand_model",
+            "owner_DNI",
+        ]
+        labels = {
+            "plate_ID": "Patente del vehículo",
+            "vehicle_type": "Tipo de vehículo",
+            "brand": "Marca",
+            "brand_model": "Modelo",
+            "owner_DNI": "DNI del dueño(a)",
+        }
 
 
-class EmployeeForm(forms.Form):
-    name = forms.CharField(max_length=80, label="Nombre")
-    last_name = forms.CharField(max_length=80, label="Apellido")
-    DNI = forms.CharField(max_length=8)
-    tel = forms.CharField(max_length=10, label="Teléfono")
+class UpdateVehicleForm(forms.ModelForm):
+    # No se permite modificar la patente
+    # Hacemos que este campo sea read-only en el widget HTML
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["plate_ID"].widget.attrs["readonly"] = True
+
+    class Meta:
+        model = Vehicle
+        fields = [
+            "plate_ID",
+            "vehicle_type",
+            "brand",
+            "brand_model",
+            "owner_DNI",
+        ]
+        labels = {
+            "plate_ID": "Patente del vehículo",
+            "vehicle_type": "Tipo de vehículo",
+            "brand": "Marca",
+            "brand_model": "Modelo",
+            "owner_DNI": "DNI del dueño(a)",
+        }
+
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = ["asigned_to", "vehicle", "description"]
+        labels = {
+            "asigned_to": "Asignado a",
+            "vehicle": "Vehículo",
+            "description": "Trabajo a realizar",
+        }
+
+
+class EmployeeForm(forms.ModelForm):
+    class Meta:
+        model = Employee
+        fields = ["DNI", "last_name", "name", "tel"]
+        labels = {
+            "DNI": "DNI",
+            "last_name": "Apellido",
+            "name": "Nombre(s)",
+            "tel": "Teléfono de contacto",
+        }
 
 
 class SearchForm(forms.Form):
-    query = forms.CharField(label="Buscar palabra clave", max_length=80)
+    query = forms.CharField(
+        label="Buscar palabra clave (ingrese * para ver todos los registros)",
+        max_length=80,
+    )
 
 
 class RegisterForm(UserCreationForm):
