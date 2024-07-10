@@ -19,28 +19,30 @@
   </head>
   <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-light bg-light static-top">
+    <nav class="navbar fixed-top bg-dark border-bottom border-body static-top">
       <div class="container">
-        <a class="navbar-brand btn btn-primary text-white" href="{% url 'home' %}">Home</a>
+        <a class="btn btn-primary text-white" href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
         {% if user.is_authenticated %}
-          <a class="navbar-brand" href="{% url 'clients' %}">Clientes</a>
-          <a class="navbar-brand" href="{% url 'vehicles' %}">Vehiculos</a>
-          <a class="navbar-brand" href="{% url 'employees' %}">Empleados</a>
-          <a class="navbar-brand" href="{% url 'tasks' %}">Tareas</a>
-          <div class="navbar-brand d-flex">
-            <p class="text-center" style="color:green">[{{ user.first_name }} {{ user.last_name }}]</p>
+          <div class="btn-group" role="group" aria-label="">
+            <a class="btn btn-secondary text-white" href="{% url 'clients' %}"><i class="fa-solid fa-person"></i> Clientes</a>
+            <a class="btn btn-secondary text-white" href="{% url 'vehicles' %}"><i class="fa-solid fa-car-side"></i> Vehiculos</a>
+            <a class="btn btn-secondary text-white" href="{% url 'employees' %}"><i class="fa-solid fa-users-between-lines"></i> Empleados</a>
+            <a class="btn btn-secondary text-white" href="{% url 'tasks' %}"><i class="fa-solid fa-list-check"></i> Tareas</a>
           </div>
           <div class="text-center">
             <a href="{% url 'add-avatar' %}"><img src="{{ request.session.avatar }}" height="40px" width="40px" alt="Avatar del usuario" /></a>
           </div>
-          <a class="navbar-brand btn btn-success text-white" href="{% url 'profile' %}">Mi perfil</a>
+          <div class="navbar-brand d-flex">
+            <p class="text-center" style="color:green">[{{ user.first_name }} {{ user.last_name }}]</p>
+          </div>
+          <a class="btn btn-success text-white" href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> Mi perfil</a>
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-danger navbar-brand text-white" type="submit">Logout</button>
+            <button class="btn btn-danger text-white" type="submit"><i class="fa-solid fa-arrow-right-from-bracket fa-sm" title="Editar registro"></i> Logout</button>
           </form>
         {% else %}
-          <a class="navbar-brand btn btn-primary text-white" href="{% url 'login' %}">Login</a>
-          <a class="navbar-brand btn btn-success text-white" href="{% url 'register' %}">Registrarse</a>
+          <a class="navbar-brand btn btn-primary text-white" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+          <a class="navbar-brand btn btn-success text-white" href="{% url 'register' %}"><i class="fa-solid fa-user-plus"></i> Registrarse</a>
         {% endif %}
       </div>
     </nav>
