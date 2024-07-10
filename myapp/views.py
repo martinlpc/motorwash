@@ -90,6 +90,15 @@ def search_view(request, model: models.Model):
             # Las primeras tareas a listar serán las últimas que se crearon
             if model == Task:
                 results = results.order_by("-id")
+
+            # Si se buscan clientes, se extraen los vehículos asociados
+            if model == Client:
+                for client in results:
+                    vehicles = Vehicle.objects.filter(
+                        owner_DNI=client.DNI
+                    ).values_list("plate_ID", flat=True)
+                    client.plate_IDs = list(vehicles)
+
             context = {
                 "form": form,
                 "query": query,

@@ -13,17 +13,18 @@ Tutor: Gomez, Demian
 ## Brief
 
 App web para la gestión de procesos de un lavadero profesional de vehículos, con registro de clientes, vehículos, tareas y empleados.
+Gestión de usuario con perfil y ávatar propios.
 
 #### Para ingresar como superusuario en la ruta `/admin`:
 
 `username: admincoder`
-`password: admincoder1234`
+`password: admin1234`
 
 ##### A tener en cuenta:
 
-    - No se incluye DB en el repositorio, por lo que se debe crear manualmente al instalarlo en forma local:
-        1. ejecutar `py manage.py makemigrations`
-        2. ejecutar `py manage.py migrate`
+    - Se recomienda utilizar un entorno virtual (venv) que contenga las siguientes dependencias:
+
+        `pillow`
 
 ##### Changelog:
 
