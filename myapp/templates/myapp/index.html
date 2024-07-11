@@ -38,7 +38,7 @@
           <a class="btn btn-success text-white" href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> Mi perfil</a>
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-danger text-white" type="submit"><i class="fa-solid fa-arrow-right-from-bracket fa-sm" title="Editar registro"></i> Logout</button>
+            <button class="btn btn-danger text-white" type="submit"><i class="fa-solid fa-arrow-right-from-bracket fa-sm" title="Logout"></i> Logout</button>
           </form>
         {% else %}
           <a class="navbar-brand btn btn-primary text-white" href="{% url 'login' %}"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
