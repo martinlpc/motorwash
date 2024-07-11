@@ -7,9 +7,22 @@
 {% block content %}
   <form action="" method="post">
     {% csrf_token %}
-    <div class="text-center">
-      <h3>¿Está seguro de que desea eliminar el siguiente vehículo?</h3>
-      <h4 style="color: red">{{ object }}?</h4>
+    <div class="text-center m-3">
+      <h3>¿Está seguro de que desea eliminar al siguiente vehículo?</h3>
+      <table class="table table-striped table-sm">
+        <tr>
+          <th>Patente</th>
+          <td>{{ object.plate_ID }}</td>
+        </tr>
+        <tr>
+          <th>Marca y modelo</th>
+          <td>{{ object.brand }} {{ object.brand_model }}</td>
+        </tr>
+        <tr>
+          <th>Propietario/a</th>
+          <td>{{ object.owner_DNI.last_name }} {{ object.owner_DNI.name }}</td>
+        </tr>
+      </table>
     </div>
     <div class="text-center">
       <input type="submit" class="btn btn-danger" value="Confirmar" />

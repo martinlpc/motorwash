@@ -7,12 +7,26 @@
 {% block content %}
   <form action="" method="post">
     {% csrf_token %}
-    <div class="text-center">
-      <h3>¿Está seguro de que desea eliminar el siguiente empleado?</h3>
-      <h4 style="color: red">{{ object }}?</h4>
+    <div class="text-center m-3">
+      <h3>¿Está seguro de que desea eliminar al siguiente empleado?</h3>
+      <table class="table table-striped table-sm">
+        <tr>
+          <th>DNI</th>
+          <td>{{ object.DNI }}</td>
+        </tr>
+        <tr>
+          <th>Apellido y nombre</th>
+          <td>{{ object.last_name }} {{ object.name }}</td>
+        </tr>
+        <tr>
+          <th>Teléfono</th>
+          <td>{{ object.tel }}</td>
+        </tr>
+      </table>
     </div>
     <div class="text-center">
       <input type="submit" class="btn btn-danger" value="Confirmar" />
+      <button type="button" class="btn btn-primary" onclick="window.history.back()">Cancelar</button>
     </div>
   </form>
 {% endblock %}
