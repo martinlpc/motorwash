@@ -18,6 +18,23 @@ class ClientForm(forms.ModelForm):
         }
 
 
+class UpdateClientForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["DNI"].widget.attrs["readonly"] = True
+
+    class Meta:
+        model = Client
+        fields = ["DNI", "last_name", "name", "email", "tel"]
+        labels = {
+            "DNI": "DNI",
+            "last_name": "Apellido",
+            "name": "Nombre(s)",
+            "email": "Email",
+            "tel": "Teléfono de contacto",
+        }
+
+
 class VehicleForm(forms.ModelForm):
     class Meta:
         model = Vehicle
@@ -70,6 +87,11 @@ class TaskForm(forms.ModelForm):
             "asigned_to": "Asignado a",
             "vehicle": "Vehículo",
             "description": "Trabajo a realizar",
+        }
+        widgets = {
+            "description": forms.Textarea(
+                attrs={"cols": 80, "rows": 1}
+            )  # Ancho y alto del campo en el template
         }
 
 

@@ -20,7 +20,7 @@
   <body>
     <!-- Navigation -->
     <nav class="navbar fixed-top bg-dark border-bottom border-body static-top">
-      <div class="container">
+      <div class="container align-items-center">
         <a class="btn btn-primary text-white" href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a>
         {% if user.is_authenticated %}
           <div class="btn-group" role="group" aria-label="">
@@ -29,13 +29,8 @@
             <a class="btn btn-secondary text-white" href="{% url 'employees' %}"><i class="fa-solid fa-users-between-lines"></i> Empleados</a>
             <a class="btn btn-secondary text-white" href="{% url 'tasks' %}"><i class="fa-solid fa-list-check"></i> Tareas</a>
           </div>
-          <div class="text-center">
-            <a href="{% url 'add-avatar' %}"><img src="{{ request.session.avatar }}" height="40px" width="40px" alt="Avatar del usuario" /></a>
-          </div>
-          <div class="navbar-brand d-flex">
-            <p class="text-center" style="color:green">[{{ user.first_name }} {{ user.last_name }}]</p>
-          </div>
-          <a class="btn btn-success text-white" href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> Mi perfil</a>
+          <a href="{% url 'add-avatar' %}"><img class="rounded-circle" src="{{ request.session.avatar }}" height="40px" width="40px" alt="Avatar" /></a>
+          <a class="btn btn-success text-white" href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> {{ user.first_name }} {{ user.last_name }}</a>
           <form action="{% url 'logout' %}" method="post">
             {% csrf_token %}
             <button class="btn btn-danger text-white" type="submit"><i class="fa-solid fa-arrow-right-from-bracket fa-sm" title="Logout"></i> Logout</button>

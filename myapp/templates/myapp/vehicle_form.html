@@ -6,7 +6,43 @@
 {% block content %}
   <form action="" method="POST">
     {% csrf_token %}
-    <table>{{ form.as_table }}</table>
+    {% comment %} <table>{{ form.as_table }}</table> {% endcomment %}
+    <table>
+      <tr>
+        <td>
+          <b>{{ form.plate_ID.label_tag }}</b>
+        </td>
+        <td>{{ form.plate_ID }}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>{{ form.vehicle_type.label_tag }}</b>
+        </td>
+        <td>{{ form.vehicle_type }}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>{{ form.brand.label_tag }}</b>
+        </td>
+        <td>{{ form.brand }}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>{{ form.brand_model.label_tag }}</b>
+        </td>
+        <td>{{ form.brand_model }}</td>
+      </tr>
+      <tr>
+        <td>
+          <b>{{ form.owner_DNI.label_tag }}</b>
+        </td>
+        <td>
+          {{ form.owner_DNI }}
+          <a href="{% url 'add-client' %}" class="btn btn-link">Agregar nuevo cliente</a>
+        </td>
+      </tr>
+    </table>
     <input class="btn btn-primary" type="submit" value="Guardar" />
+    <button type="button" class="btn btn-danger" onclick="window.history.back()">Cancelar</button>
   </form>
 {% endblock %}

@@ -58,7 +58,8 @@ def find_results_by_model(model: models.Model, query):
                 | Q(tel__icontains=query)
             ),
             Vehicle: (
-                Q(plate_ID__icontains=query) | Q(owner_DNI__icontains=query)
+                Q(plate_ID__icontains=query)
+                | Q(owner_DNI__DNI__icontains=query)
             ),
             Task: (Q(vehicle__plate_ID__icontains=query)),
             Employee: (
@@ -157,7 +158,7 @@ class ListClient(LoginRequiredMixin, ListView):
 
 class UpdateClient(LoginRequiredMixin, UpdateView):
     model = Client
-    fields = ["DNI", "last_name", "name", "email", "tel"]
+    form_class = UpdateClientForm
     success_url = reverse_lazy("clients")
 
 
@@ -178,7 +179,7 @@ class ListVehicle(LoginRequiredMixin, ListView):
 
 class UpdateVehicle(LoginRequiredMixin, UpdateView):
     model = Vehicle
-    form_class = UpdateVehicleForm
+    form_class = VehicleForm
     success_url = reverse_lazy("vehicles")
 
 
@@ -221,7 +222,7 @@ class ListTask(LoginRequiredMixin, ListView):
 
 class UpdateTask(LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ["asigned_to", "vehicle_ID", "description"]
+    form_class = TaskForm
     success_url = reverse_lazy("tasks")
 
 
