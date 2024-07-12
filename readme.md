@@ -16,16 +16,16 @@ App web para la gestión de procesos de un lavadero profesional de vehículos, c
 
 La finalidad de la app es poder contar con un seguimiento básico de tareas a realizar sobre los vehículos que ingresan al establecimiento, con la opción de desarrollar a futuro un sistema de aviso al cliente, cuando su vehículo se encuentre próximo a ser retirado (a través de email y WhatsApp).
 
-Al ingresar al home, se muestran las tareas en curso.
+Al ingresar al home, se muestran las tareas en curso, estando registrado o no.
 
 Si se loguea como usuario, se pueden acceder a las distintas vistas de los modelos. Además, existe la posibilidad de cargar un ávatar y modificar información del perfil. Por el momento, no se definen grupos de usuarios con distintos accesos y permisos. A futuro, se evalúa implementar grupos para clientes (quienes pueden seguir en tiempo real el estado de su vehículo), empleados (quienes irán cargando y completando tareas) y administradores (funciones de Empleados y con posibilidad de ABM en la base de datos).
 
 ### Modelos utilizados
 
-Client
-Vehicle
-Employee
-Task
+`Client`
+`Vehicle`
+`Task`
+`Employee`
 
 #### Para ingresar como superusuario en la ruta `/admin`:
 
