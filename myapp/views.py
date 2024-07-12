@@ -12,7 +12,7 @@ from .forms import *
 
 
 def home(request):
-    results = Task.objects.filter(is_completed=False)
+    results = Task.objects.filter(is_completed=False).order_by("-created")
     return render(request, "myapp/active_tasks.html", {"results": results})
 
 
@@ -140,7 +140,10 @@ def complete_task(request):
         task = get_object_or_404(Task, id=task_id)
         task.is_completed = True
         task.save()
-        return redirect("search-task")
+
+        # Redirigir a la URL desde donde se ejecutó la acción
+        referer_url = request.META.get("HTTP_REFERER", "search-task")
+        return redirect(referer_url)
 
     return render(request, "myapp/task_list.html")
 

@@ -27,7 +27,7 @@
             <a class="btn btn-secondary text-white" href="{% url 'clients' %}"><i class="fa-solid fa-person"></i> Clientes</a>
             <a class="btn btn-secondary text-white" href="{% url 'vehicles' %}"><i class="fa-solid fa-car-side"></i> Vehiculos</a>
             <a class="btn btn-secondary text-white" href="{% url 'employees' %}"><i class="fa-solid fa-users-between-lines"></i> Empleados</a>
-            <a class="btn btn-secondary text-white" href="{% url 'tasks' %}"><i class="fa-solid fa-list-check"></i> Tareas</a>
+            <a class="btn btn-warning text-black" href="{% url 'tasks' %}"><i class="fa-solid fa-list-check"></i> Tareas</a>
           </div>
           <a href="{% url 'add-avatar' %}"><img class="rounded-circle" src="{{ request.session.avatar }}" height="40px" width="40px" alt="Avatar" /></a>
           <a class="btn btn-success text-white" href="{% url 'profile' %}"><i class="fa-regular fa-user"></i> {{ user.first_name }} {{ user.last_name }}</a>
