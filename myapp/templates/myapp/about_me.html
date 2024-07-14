@@ -5,10 +5,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
-    <meta name="author" content="" />
+    <meta name="author" content="Martin Pacheco" />
     <title>devMLP - About page</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="about_me/assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="{% static 'about_me/assets/favicon.ico' %}" />
     <!-- Custom Google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,6 +17,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap) -->
     <link href="{% static 'about_me/css/styles.css' %}" rel="stylesheet" />
+    <!-- Fontawesome icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   </head>
   <body class="d-flex flex-column h-100">
@@ -49,7 +50,7 @@
                 <h1 class="display-3 fw-bolder mb-5"><span class="text-gradient d-inline">Get online and grow fast</span></h1>
                 <div class="d-grid gap-3 d-sm-flex justify-content-sm-center justify-content-xxl-start mb-3">
                   <a class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" target="_blank" href="https://drive.google.com/file/d/1GSx0iTcwYeAz2ilK4H3KGNbXGi2CKED1/view?usp=sharing">Resume</a>
-                  <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" href="http://www.github.com/martinlpc"><i class="fa-brands fa-github"></i> My Github</a>
+                  <a class="btn btn-outline-dark btn-lg px-5 py-3 fs-6 fw-bolder" target="_blank" href="http://www.github.com/martinlpc"><i class="fa-brands fa-github"></i> My Github</a>
                 </div>
               </div>
             </div>
@@ -57,8 +58,6 @@
               <!-- Header profile picture -->
               <div class="d-flex justify-content-center mt-5 mt-xxl-0">
                 <div class="profile bg-gradient-primary-to-secondary">
-                  <!-- TIP: For best results, use a photo with a transparent background like the demo example below -->
-                  <!-- Watch a tutorial on how to do this on YouTube (link) -->
                   <img class="profile-img" src="{% static 'about_me/assets/profile.png' %}" alt="Foto de devMLP" />
                   <div class="dots-1">
                     <!-- SVG Dots -->
@@ -185,7 +184,7 @@
             <div class="col-xxl-8">
               <div class="text-center my-5">
                 <h2 class="display-5 fw-bolder"><span class="text-gradient d-inline">About Me</span></h2>
-                <p class="lead fw-light mb-4">My name is Martín Pacheco and I am a Full Stack Developer</p>
+                <p class="lead fw-light mb-4">My name is Martín Pacheco and I am a Full Stack Developer from Buenos Aires</p>
                 <p class="text-muted">Information Systems Analyst since 2016 with over 10 years of experience in electronics, telecommunications and software development. Since 2022, I have focused on Full Stack Development, specializing in Python/Django, Node.js, React, and JavaScript.</p>
                 <p class="text-muted">Want to contact me? Click on the Linkedin icon below and send me a message!</p>
                 <div class="d-flex justify-content-center fs-2 gap-4">
