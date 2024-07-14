@@ -46,6 +46,14 @@ Si se loguea como usuario, se pueden acceder a las distintas vistas de los model
 
 ##### Changelog:
 
+-   [Entrega final - 14/07/24]:
+
+    -   Detalles visuales finales en app y about
+
+    -   Links agregados en pagina about
+
+    -   Agregado testlist.xls y link a video demo en readme
+
 -   [Previo a Entrega final - 12/07/24]:
 
     -   Mejorada la interfaz de usuario
