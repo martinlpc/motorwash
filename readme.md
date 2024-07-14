@@ -10,6 +10,8 @@ Profesor: Beltrán, Norman
 
 Tutor: Gomez, Demian
 
+[Demo video](https://youtu.be/UX0RG3PpmOw)
+
 ## Brief
 
 App web para la gestión de procesos de un lavadero profesional de vehículos, con registro de clientes, vehículos, tareas y empleados.
@@ -37,6 +39,10 @@ Si se loguea como usuario, se pueden acceder a las distintas vistas de los model
     - Se recomienda utilizar un entorno virtual (venv) que contenga las siguientes dependencias:
 
         `pillow`
+
+    - Se omite el uso de variables de entorno con el fin de aportar seguridad y manejo de SECRET_KEY
+
+    - Se incluye base de datos con información previamente cargada de los modelos utilizados, con el fin de brindar una mejor experiencia de corrección
 
 ##### Changelog:
 
