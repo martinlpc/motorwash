@@ -218,11 +218,6 @@ class CreateTask(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("tasks")
 
 
-class ListTask(LoginRequiredMixin, ListView):
-    model = Task
-    ordering = ["-created"]
-
-
 class UpdateTask(LoginRequiredMixin, UpdateView):
     model = Task
     form_class = TaskForm
